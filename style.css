@@ -5,7 +5,7 @@
 }
 .wrap {
     width: 100%;
-    height: 350vh;
+    min-height: 350vh;
     background-color: rgb(146, 146, 146);
     display: flex;
     justify-content: start;
@@ -72,9 +72,7 @@ a:hover {
     height: 80%;
     display: flex;
 }
-img {
-    filter: drop-shadow(1px 1px 1px #000);
-}
+
 .k{
     width: 33%;
     height: 100%;
@@ -155,7 +153,7 @@ i{
 }
 .Container-about-me{
     width: 100%;
-    height: 90%;
+    height: 150px;
     background-color: transparent;
     display: flex;
     justify-content: space-between;
@@ -215,7 +213,7 @@ span.grey-black{
 }
 .my-project{
     width: 100%;
-    height: 80%;
+    height: 130px;
     background-color: rgb(88, 88, 88);
     border-radius: 5px;
     margin-top: 3%;
@@ -240,43 +238,35 @@ h4{
     
 }
 .first-project{
-    width: 25%;
+    width: 50%;
     height: 100%;
     background-color: rgb(88, 88, 88);
     border: #000 solid 0.3px;
     border-bottom-left-radius: 5px;
-    justify-content: center;
-    
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
 }
-.second-project{
-    width: 25%;
-    height: 100%;
-    background-color: rgb(88, 88, 88);
-    border: #000 solid 0.3px;
-    justify-content: center;
-}
+
 .third-project{
-    width: 25%;
+    width: 50%;
     height: 100%;
     background-color: rgb(88, 88, 88);
     border: #000 solid 0.3px;
     justify-content: center;
-}
-.fourth-project{
-    width: 25%;
-    height: 100%;
-    background-color: rgb(88, 88, 88);
-    border: #000 solid 0.3px;
     border-bottom-right-radius: 5px;
-    justify-content: center;
+    display: flex;
 }
+
 .photo{
-    width: 95%;
-    height: 40%;
+    width: 60%;
+    height: 100%;
     background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    margin-bottom: 1%;
 }
 .jk{
     width: 100%;
@@ -291,13 +281,112 @@ h4{
     
 }
 .txte{
-    width: 95%;
-    height: 45%;
+    width: 35%;
+    height: 100%;
     background-color: transparent;
     display: flex;
+    flex-direction: column;
     font-size: 30%;
     font-weight: 600;
     margin-top: 2%;
+    margin-left: 5%;
     text-align: left;
     margin-left: 2%;
+}
+#uued{
+    margin-right: 60%;
+    margin-bottom: 1.5%;
+    filter: drop-shadow(2px 2px 2px black);
+}
+h3{
+    font-size: 8px;
+    color: #000;
+}
+.boxOne{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+}
+span.mmma{
+    color: black;
+}
+#yy{
+    margin-left: 5%;
+    margin-top: 2%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 0.2px #000 solid;
+}
+#yyu{
+    margin-left: 5%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 0.2px #000 solid;
+}
+span.bbg{
+    font-size: 80%;
+}
+span.gbb{
+    font-size: 7px;
+    color: #000;
+    font-weight: 700
+}
+span.bbgo{
+    font-size: 80%;
+    color: #0f0f0f;
+}
+#yyo{
+    margin-left: 5%;
+    margin-top: 2%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 0.2px #000 solid;
+}
+#yyuo{
+    margin-left: 5%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 0.2px #000 solid;
+}
+.my-skill{
+    width: 100%;
+    height: 70%;
+    background-color: rgb(88, 88, 88);
+    display: block;
+    justify-content: space-around;
+    margin-top: 5%;
+    border-radius: 5px;
+}
+.rr{
+    width: 15%;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+}
+span.mmk{
+    font-size: 7px;
+    font-weight: 900;
+}
+.hhhh{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    background-color: transparent;
+    text-align: center;
+    justify-content: center;
+}
+.skil{
+    width: 100%;
+    height: 60%;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-around;
+}
+#uuij{
+    border-radius: 5px;
+}
+body{
+    background-color: rgb(146, 146, 146);
 }
