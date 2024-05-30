@@ -1,0 +1,464 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: rgb(211, 211, 211);
+    font-family: Montserrat;
+}
+.wrap{
+    width: 100%;
+    height: 150vh;
+    background-color: transparent;
+}
+.recommedantion{
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    justify-content: center;
+}
+
+
+body::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px; 
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+
+
+
+.mainCardBody{
+    width: 320px;
+    height: 400px;
+    background-color: transparent;
+    border-radius: 10px;
+    display: flex;
+    margin-top: 2%;
+    margin-left: 2%;
+    justify-content: end;
+    align-items: center;
+    object-fit: cover;
+    transition: 0.3s;
+    
+}
+.mainCardBody:hover{
+    transform: scale(1.02);
+}
+#cardBody{
+    width: 300px;
+    height: 380px;
+    background-color: rgb(161, 161, 161);
+    border-radius: 10px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 7px 7px  rgba(39, 39, 39, 0.658);
+    cursor: pointer;
+}
+
+.myProject{
+    width: 100%;
+    height: 5%;
+}
+#myProject {
+    border: none;
+    border-top: 3px solid rgb(37, 37, 37);
+    background: rgb(37, 37, 37);
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+    margin-top: 2%;
+}
+  
+#myProject::after {
+    background: rgb(211, 211, 211);
+    border-radius: 5px;
+    color: black;
+    font-weight: 700;
+    content: 'my project';
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+}
+
+
+
+.namePic{
+    width: 95%;
+    height: 45%;
+    background-color: rgb(131, 131, 131);
+    display: flex;
+    margin-top: 3%;
+    border-radius: 5px;
+    align-items: center;
+    flex-direction: column;
+    font-weight: 800;
+}
+#dotReactionPic{
+    width: 95%;
+    height: 80%;
+    margin-top: 2%;
+    border-radius: 5px;
+}
+
+.textContainer{
+    width: 95%;
+    height: 50%;
+    display: flex;
+    margin-top: 2%;
+    flex-direction: column;
+}
+.lineOne{
+    width: 100%;
+    height: 25%;
+    background-color: transparent;
+    display: flex;
+}
+.html{
+    width: 50%;
+    height: 100%;
+    background-color: rgb(255, 166, 50);
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 3px;
+    font-size: 200%;
+    align-items: center;
+}
+.css{
+    width: 50%;
+    height: 100%;
+    background-color: rgb(50, 190, 255);
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 3px;
+    margin-left: 2%;
+    font-size: 200%;
+    align-items: center;
+}
+.lineTwo{
+    width: 100%;
+    height: 17%;
+    background-color: transparent;
+    display: flex;
+    margin-top: 2%;
+}
+.javascript{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(235, 218, 69);
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 3px; 
+    font-size: 120%;
+    align-items: center;
+}
+.lineThree{
+    width: 100%;
+    height: 17%;
+    background-color: transparent;
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 150%;
+    font-weight: 700;
+}
+.hr{
+    width: 95%;
+    height: 10%;
+    background-color: rgb(27, 27, 27);
+    border-radius: 50px
+}
+.lineFour{
+    width: 100%;
+    height: 20%;
+    background-color: transparent;
+    display: flex;
+    margin-top: 2%;
+}
+
+
+/* button start*/
+#viewGame{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(0, 142, 207);
+    border: 1px solid rgb(0, 142, 207);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 2%;
+    transition: 0.2s;
+}
+#viewGame:hover{
+    margin-top: 1.5%;
+}
+#viewGithub{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(27, 27, 27);
+    border: 1px solid rgb(27, 27, 27);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    color: rgb(197, 197, 197);
+    cursor: pointer;
+    transition: 0.2s;
+}
+#viewGithub:hover{
+    margin-top: 1.5%;
+}
+
+
+
+#viewGameOne{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(0, 142, 207);
+    border: 1px solid rgb(0, 142, 207);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 2%;
+    transition: 0.2s;
+}
+#viewGameOne:hover{
+    margin-top: 1.5%;
+}
+#viewGithubOne{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(27, 27, 27);
+    border: 1px solid rgb(27, 27, 27);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    color: rgb(197, 197, 197);
+    cursor: pointer;
+    transition: 0.2s;
+}
+#viewGithubOne:hover{
+    margin-top: 1.5%;
+}
+
+
+#viewGameTwo{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(0, 142, 207);
+    border: 1px solid rgb(0, 142, 207);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 2%;
+    transition: 0.2s;
+}
+#viewGameTwo:hover{
+    margin-top: 1.5%;
+}
+#viewGithubTwo{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(27, 27, 27);
+    border: 1px solid rgb(27, 27, 27);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    color: rgb(197, 197, 197);
+    cursor: pointer;
+    transition: 0.2s;
+}
+#viewGithubTwo:hover{
+    margin-top: 1.5%;
+}
+
+
+
+#viewGameThree{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(0, 142, 207);
+    border: 1px solid rgb(0, 142, 207);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 2%;
+    transition: 0.2s;
+}
+#viewGameThree:hover{
+    margin-top: 1.5%;
+}
+#viewGithubThree{
+    width: 49%;
+    height: 100%;
+    background-color: rgb(27, 27, 27);
+    border: 1px solid rgb(27, 27, 27);
+    margin-top: 2%;
+    border-radius: 50px;
+    font-size: 100%;
+    font-weight: 700;
+    color: rgb(197, 197, 197);
+    cursor: pointer;
+    transition: 0.2s;
+}
+#viewGithubThree:hover{
+    margin-top: 1.5%;
+}
+/* button end*/
+.mainGithub{
+    width: 100%;
+    height: 100px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+}
+#onGithub{
+    width: 1430px;
+    height: 100px;
+    background-color: rgb(161, 161, 161);
+    display: flex;
+    margin-left: 3%;
+    border-radius: 10px;
+    color: black;
+    font-size: 150%;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 7px 7px  rgba(39, 39, 39, 0.658);
+    transition: 0.3s;
+    cursor: pointer;
+}
+#onGithub:hover{
+    transform: scale(1.02);
+}
+
+
+
+
+#sendMeMail{
+    border: none;
+    border-top: 3px solid rgb(37, 37, 37);
+    background: rgb(37, 37, 37);
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+    margin-top: 10%;
+}
+#sendMeMail::after {
+    background: rgb(211, 211, 211);
+    border-radius: 5px;
+    color: black;
+    font-weight: 700;
+    content: 'send me message';
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+}
+
+
+.mainFormspree{
+    width: 100%;
+    height: 30%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+}
+.formspree{
+    width: 500px;
+    height: 250px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-top: 5%;
+    flex-direction: column;
+}
+.eemail{
+    width: 500px;
+    height: 250px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+form {
+    max-width: 600px;
+    margin: 0 auto; 
+    padding: 20px; 
+    border: none;
+    background-color: rgb(143, 143, 143); 
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #2e2e2e;
+    box-shadow: 7px 7px  rgba(39, 39, 39, 0.658);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px; 
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+}
+
+textarea {
+    width: 500px;
+    resize: none; 
+}
+
+
+#btnSend {
+    background-color: #4CAF50; 
+    color: white;
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+}
+
+#btnSend:hover {
+    background-color: #45a049;
+}
