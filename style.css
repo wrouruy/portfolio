@@ -6,17 +6,26 @@
 body{
     background-color: rgb(211, 211, 211);
     font-family: Montserrat;
+    margin: 0;
 }
-.wrap{
+canvas { display: block; }
+html{
+    scroll-behavior: smooth;
+}
+#wrap{
     width: 100%;
-    height: 150vh;
+    height: 100vh;
     background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
 }
 .recommedantion{
     display: flex;
+    flex-direction: column;
     gap: 15px;
     padding: 15px;
-    justify-content: center;
+    align-items: center;
 }
 
 
@@ -24,8 +33,8 @@ body::-webkit-scrollbar-track{
     background-color: transparent;
 }
 ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px; 
+    width: 10px;
+    height: 10px; 
 }
 
 ::-webkit-scrollbar-track {
@@ -43,8 +52,136 @@ body::-webkit-scrollbar-track{
 }
 
 
+.startMenu{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+}
+#other{
+    width: 100%;
+    height: 200vh;
+    background-color: transparent;
+    display: none;
+    flex-direction: column;
+}
 
 
+
+#mouseEnter{
+    width: 100%;
+    height: 10%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#noneContainer{
+    width: 100%;
+    height: 10%;
+    background-color: transparent;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+#angleDown{
+    color: black;
+    font-size: 300%;
+    transition: 0.5s;
+}
+
+.textMenu {
+    width: 500px;
+    height: 250px;
+    background-color: rgb(161, 161, 161);
+    margin-top: 3%;
+    display: flex;
+    box-shadow: 7px 7px  rgba(39, 39, 39, 0.658);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    position: relative;
+    margin-left: -10px;
+    animation-name: textAnimation;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+}
+@keyframes textAnimation{
+    0%{
+        margin-left: -400px;
+    }
+    100%{
+        margin-left: -10px;
+    }
+}
+.secondTextMenu{
+    width: 400px;
+    height: 200px;
+    background-color: rgb(161, 161, 161);
+    margin-top: 1%;
+    display: flex;
+    box-shadow: 7px 7px  rgba(39, 39, 39, 0.658);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    position: relative;
+    margin-left: -10px;
+    animation-name: secondTextAnimation;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+}
+@keyframes secondTextAnimation{
+    0%{
+        margin-left: -400px;
+    }
+    100%{
+        margin-left: -10px;
+    }
+}
+
+
+.editMenu{
+    width: 100%;
+    height: 90%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+}
+.nameClass{
+    font-size: 300%;
+    color: rgb(59, 59, 59);
+    font-weight: 800;
+}
+.commentClass{
+    font-size: 150%;
+    color: rgb(126, 126, 126);
+}
+.secondcomment{
+    font-size: 200%;
+    color: rgb(126, 126, 126);
+    margin-right: 5%;
+}
+.job{
+    color: rgb(87, 87, 87);
+    font-weight: 700;
+}
+.lineOneCard{
+    width: 1280px;
+    height: 400px;
+    background-color: transparent;
+    display: flex;
+}
+.lineTwoCard{
+    width: 1280px;
+    height: 400px;
+    background-color: transparent;
+    display: flex;
+}
 .mainCardBody{
     width: 320px;
     height: 400px;
@@ -59,6 +196,7 @@ body::-webkit-scrollbar-track{
     transition: 0.3s;
     
 }
+
 .mainCardBody:hover{
     transform: scale(1.02);
 }
@@ -73,6 +211,7 @@ body::-webkit-scrollbar-track{
     flex-direction: column;
     box-shadow: 7px 7px  rgba(39, 39, 39, 0.658);
     cursor: pointer;
+    
 }
 
 .myProject{
@@ -345,6 +484,7 @@ body::-webkit-scrollbar-track{
     background-color: transparent;
     display: flex;
     justify-content: center;
+    margin-top: 2%;
 }
 #onGithub{
     width: 1430px;
@@ -461,4 +601,45 @@ textarea {
 
 #btnSend:hover {
     background-color: #45a049;
+}
+.lastComment{
+    width: 100%;
+    height: 17%;
+    background-color: #2e2e2e8a;
+}
+#lastCommentGit{
+    font-size: 300%;
+    color: black;
+    transition: 0.3s;
+}
+#lastCommentGit:hover{
+    color: #2b2b2b;
+}
+
+.mainScroll{
+    width: 100px;
+    height: 400px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 5%;
+}
+.scroll{
+    width: 100px;
+    height: 50px;
+    background-color: #2b2b2b;
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    border: #2b2b2b 1px solid;
+    font-size: 100%;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.scroll:hover{
+    transform: scale(1.02);
 }

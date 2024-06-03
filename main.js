@@ -33,3 +33,26 @@ viewGameThree.onclick = function(){
 viewGithubThree.onclick = function(){
     window.location.href = '';
 }
+
+document.getElementById('scrollFormspree').addEventListener('click', function() {
+    window.scrollTo(0, document.body.scrollHeight);
+});
+
+document.getElementById('scrollMyProject').addEventListener('click', function() {
+    window.scrollTo(document.body.scrollHeight, 1230);
+});
+
+
+
+mouseEnter.onmouseenter = function(){
+    wrap.style.height = '300vh'
+    other.style.display = 'flex'
+    window.scrollTo(document.body.scrollHeight, 1350);
+    angleDown.style.color = 'transparent'
+    setTimeout(() =>{
+        mouseEnter.style.display = 'none'
+        noneContainer.style.display = 'flex'
+    }, 1000)
+}
+
+
