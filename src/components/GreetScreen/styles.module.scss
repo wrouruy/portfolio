@@ -1,0 +1,28 @@
+.greetScreen {
+    width: 100%;
+    height: 100%;
+}
+
+.row {
+    display: flex;
+    position: absolute;
+    // top: calc(70vh - 40px);
+    // left: calc(40px * 2);
+    left: calc(40px * 2);
+    bottom: calc(40px * 2);
+    align-items: center;
+    gap: 30px;
+
+    img {
+        border-radius: 50%;
+    }
+    h1 {
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+    }
+}

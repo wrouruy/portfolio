@@ -1,0 +1,85 @@
+.errorScreen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 2vh, 24px);
+    padding: 24px;
+    overflow: auto;
+    text-align: center;
+    color: #f4f6fb;
+    background: radial-gradient(circle at 50% 30%, #1b0f13 0%, #0a0b10 55%, #05060a 100%);
+}
+
+.scene {
+    flex-shrink: 0;
+    width: min(620px, 100%);
+    height: min(56vh, 460px);
+    min-height: 260px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 520px;
+}
+
+.title {
+    margin: 0;
+    font-size: clamp(1.35rem, 1.05rem + 1.4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.message {
+    margin: 0;
+    font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem);
+    line-height: 1.55;
+    color: rgba(244, 246, 251, 0.72);
+}
+
+.detail {
+    margin: 0;
+    padding: 4px 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.8rem;
+    color: rgba(244, 246, 251, 0.45);
+    border: 1px solid rgba(244, 246, 251, 0.12);
+    border-radius: 999px;
+}
+
+.retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #e3261c;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+
+    &:hover {
+        background: #ff3b30;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:focus-visible {
+        outline: 2px solid #ffffff;
+        outline-offset: 3px;
+    }
+}

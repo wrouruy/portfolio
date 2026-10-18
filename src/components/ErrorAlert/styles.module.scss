@@ -1,0 +1,53 @@
+.ErrorAlert {
+    width: 80%;
+    padding: 8px 30px;
+    gap: 10px;
+
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+
+    translate: -50% 0%;
+    left: 50%;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+
+    animation: ErrorAlert 300ms 1;
+    transition: 300ms;
+
+    z-index: 9999;
+
+    background-color: #db4242;
+    color: #0F0F0F;
+
+    button {
+        height: 100%;
+        padding: 5px 10px;
+        border: none;
+        filter: brightness(0.8);
+        cursor: pointer;
+        transition: 300ms;
+        border-radius: 7px;
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        &:hover {
+            filter: brightness(0.7);
+        }
+    }
+}
+
+@keyframes ErrorAlert {
+    from {
+        opacity: 0;
+        margin-top: -30px;
+    } to {
+        opacity: 1;
+    }
+}
