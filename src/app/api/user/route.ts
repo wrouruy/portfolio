@@ -8,7 +8,7 @@ export async function GET () {
             {
                 method: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN
+                    'Authorization': 'Bearer ' + process.env.GITHUB_API_TOKEN
                 }
             }
         );

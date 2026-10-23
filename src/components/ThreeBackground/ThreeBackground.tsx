@@ -73,7 +73,7 @@ const TONE_MAPPING_EXPOSURE = 0.93;
 // plus a few sheets of ground mist that catch the flashlight.
 const GROUND_FOG_MATERIAL = /fog/i;
 const FOG_COLOR: [number, number, number] = [0.03, 0.042, 0.07];
-const FOG_DENSITY = 0.13;
+const FOG_DENSITY = 0.14;
 
 // Ground mist sheets: big horizontal planes with a soft ring of haze painted into
 // their alpha channel. The ring keeps the haze away from the ground right in
@@ -98,6 +98,30 @@ const GROUND_MATERIAL = /forestfloor/i;
 const GROUND_ALBEDO: [number, number, number] = [0.05, 0.042, 0.03];
 
 const FOCUS_DISTANCE = 20; // distance at which the camera pivots while it sways
+
+// ---------------------------------------------------------------------------
+// Performance knobs. The scene is a slow-moving background behind text, so it
+// does not need the display's native refresh rate, native pixel density or a
+// per-frame shadow pass to look right.
+// ---------------------------------------------------------------------------
+
+// The camera sway takes tens of seconds per cycle, so 30 fps still reads as
+// perfectly smooth while halving the number of full-screen draws.
+const TARGET_FPS = 30;
+
+// A 2x-3x device pixel ratio quadruples/triples the shaded pixel count of a
+// full-screen canvas. The fog softens the image anyway, so 1.5 is a good
+// balance; anything above that is wasted GPU time.
+const MAX_PIXEL_RATIO = 1.5;
+
+// The forest and the moon never move. Only the flashlight follows the camera, so
+// the maps only have to be redrawn once the camera has drifted far enough for the
+// stale torch shadow to be noticeable - during a normal sway that is every few
+// seconds, not on every frame. Each redraw is a full extra depth pass over the
+// forest, so keeping it rare is what removes the periodic stutter.
+const SHADOW_MIN_INTERVAL = 0.5; // seconds, lower bound between two shadow passes
+const SHADOW_MOVE_THRESHOLD = 0.25; // metres
+const SHADOW_ROTATE_THRESHOLD = 0.02; // radians (~1.1 degrees)
 
 // three@0.151 still ships the legacy `outputEncoding` and `useLegacyLights`
 // APIs, which are no longer present in the installed typings.
@@ -207,7 +231,7 @@ interface Props {
     className?: string;
     /** Vertical field of view of the camera, in degrees. */
     fov?: number;
-    /** Idle camera sway and pointer parallax. */
+    /** Idle camera sway and pointer parallax. Safe to toggle at runtime. */
     animated?: boolean;
 }
 
@@ -218,12 +242,28 @@ export default function ThreeBackground({
     animated = true,
 }: Props) {
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    // `animated` only freezes the render loop, so it must not be an effect
+    // dependency: rebuilding the effect means a new WebGL context, another
+    // .glb download and parse, four regenerated mist textures and a shader
+    // compile - far too much for a flag that flips while scrolling.
+    const animatedRef = useRef(animated);
+
+    useEffect(() => {
+        animatedRef.current = animated;
+    }, [animated]);
 
     useEffect(() => {
         const wrapper = wrapperRef.current;
-        const canvas = canvasRef.current;
-        if (!wrapper || !canvas) return;
+        if (!wrapper) return;
+
+        // The canvas is created per effect run rather than living in the JSX. A DOM
+        // canvas can only ever hand out one WebGL context, and the cleanup below
+        // deliberately loses that context; reusing one element would make the
+        // second mount (React StrictMode, or an effect re-run) inherit an already
+        // lost context, which crashes inside the WebGLRenderer constructor.
+        const canvas = document.createElement('canvas');
+        canvas.setAttribute('aria-hidden', 'true');
+        wrapper.appendChild(canvas);
 
         // Initial drawing-buffer size, in step with the CSS box. `resize()` below
         // keeps it up to date on every layout change.
@@ -232,18 +272,24 @@ export default function ThreeBackground({
 
         let renderer: THREE.WebGLRenderer;
         try {
+            // MSAA on top of a supersampled high-DPI canvas is redundant: when the
+            // drawing buffer is already larger than the CSS size, the downsample
+            // does the antialiasing, so MSAA only runs at 1x.
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO);
             renderer = new THREE.WebGLRenderer({
                 canvas,
-                antialias: true,
+                antialias: pixelRatio <= 1,
                 alpha: true, // the CSS gradient shows through if WebGL is missing
                 powerPreference: 'high-performance',
+                stencil: false,
             });
+            renderer.setPixelRatio(pixelRatio);
         } catch (error) {
             console.error('ThreeBackground: WebGL is not available', error);
+            canvas.remove();
             return;
         }
 
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         (renderer as THREE.WebGLRenderer & { outputEncoding: number; useLegacyLights: boolean })
             .outputEncoding = LEGACY_SRGB_ENCODING;
         // Physical light units, so the candela/lux values above mean the same as
@@ -254,6 +300,10 @@ export default function ThreeBackground({
         renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        // Shadow maps are refreshed manually (see `SHADOW_MOVE_THRESHOLD`): the
+        // depth passes are the most expensive thing in the scene, and almost every
+        // frame would otherwise redraw identical maps for a static forest.
+        renderer.shadowMap.autoUpdate = false;
 
         // The canvas stays transparent so the CSS gradient behind it acts as the
         // sky: three.js renders a plain background colour as a clear colour, which
@@ -367,6 +417,27 @@ export default function ThreeBackground({
         const UP = new THREE.Vector3(0, 1, 0);
         const right = new THREE.Vector3();
 
+        // Render-loop state, declared before `resize()` because that runs once
+        // immediately below and has to flag the first frame.
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const frameInterval = 1 / TARGET_FPS;
+
+        let frame = 0;
+        let visible = !document.hidden;
+        let inView = true;
+        // Set whenever something changed (resize, model arriving). With reduced
+        // motion the scene is static, so once this is cleared the loop idles.
+        let dirty = true;
+        let lastFrame = 0;
+        let sinceShadowUpdate = SHADOW_MIN_INTERVAL;
+        // Camera transform the shadow maps were last rendered for.
+        const shadowCameraPosition = camera.position.clone();
+        const shadowCameraQuaternion = camera.quaternion.clone();
+        const shadowMapsStale = () =>
+            camera.position.distanceToSquared(shadowCameraPosition) >
+                SHADOW_MOVE_THRESHOLD * SHADOW_MOVE_THRESHOLD ||
+            camera.quaternion.angleTo(shadowCameraQuaternion) > SHADOW_ROTATE_THRESHOLD;
+
         const resize = () => {
             const width = wrapper.clientWidth || window.innerWidth;
             const height = wrapper.clientHeight || window.innerHeight;
@@ -375,6 +446,7 @@ export default function ThreeBackground({
             renderer.setSize(width, height, false);
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
+            dirty = true;
         };
 
         const resizeObserver = new ResizeObserver(resize);
@@ -434,6 +506,13 @@ export default function ThreeBackground({
                     mesh.receiveShadow = true;
                 });
                 scene.add(model);
+                // Compile the shader programs up front, so the first visible frame
+                // does not stutter, then queue one shadow pass for the new meshes.
+                renderer.compile(scene, camera);
+                renderer.shadowMap.needsUpdate = true;
+                shadowCameraPosition.copy(camera.position);
+                shadowCameraQuaternion.copy(camera.quaternion);
+                dirty = true;
             },
             undefined,
             (error) => {
@@ -442,22 +521,35 @@ export default function ThreeBackground({
         );
 
         const clock = new THREE.Clock();
-        let frame = 0;
-        let visible = true;
 
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const swaying = animated && !prefersReducedMotion;
-
-        const render = () => {
+        const render = (now: number) => {
             frame = requestAnimationFrame(render);
-            if (!visible) return;
+
+            // Hidden tab or scrolled out of sight: skip everything, the loop
+            // picks up again as soon as the canvas is back.
+            if (!visible || !inView) return;
+
+            // Frame-rate cap. rAF can fire at 120 Hz+, but a slow camera sway and
+            // a drifting fog need nothing like that.
+            const delta = lastFrame ? Math.min((now - lastFrame) / 1000, 0.25) : frameInterval;
+            if (lastFrame && delta < frameInterval) return;
+            lastFrame = now;
+
+            // Read at frame time, so toggling `animated` neither restarts the
+            // scene nor needs the effect to re-run: the loop simply stops
+            // drawing once it is false, keeping the last frame on screen.
+            const swaying = animatedRef.current && !prefersReducedMotion;
+
+            // Nothing moves and nothing changed: leave the last frame on screen.
+            if (!swaying && !dirty) return;
+            dirty = false;
 
             const time = clock.getElapsedTime();
-            pointer.lerp(pointerTarget, 0.05);
-
             offset.copy(baseOffset);
 
             if (swaying) {
+                pointer.lerp(pointerTarget, 0.05);
+
                 const yaw = Math.sin(time * 0.08) * 0.035 + pointer.x * 0.06;
                 const pitch = Math.sin(time * 0.12) * 0.012 - pointer.y * 0.04;
 
@@ -473,9 +565,36 @@ export default function ThreeBackground({
             camera.position.copy(target).add(offset);
             camera.lookAt(target);
 
+            // The torch hangs off the camera, so its shadow map does have to follow
+            // the view - but the sway is so slow that refreshing it only after the
+            // camera has drifted a good quarter of a metre is already far more than
+            // the eye can tell, and it keeps the extra depth pass off almost every
+            // frame.
+            sinceShadowUpdate += delta;
+            if (sinceShadowUpdate >= SHADOW_MIN_INTERVAL && shadowMapsStale()) {
+                renderer.shadowMap.needsUpdate = true;
+                shadowCameraPosition.copy(camera.position);
+                shadowCameraQuaternion.copy(camera.quaternion);
+                sinceShadowUpdate = 0;
+            }
+
             renderer.render(scene, camera);
+
+            if (debugOverlay) {
+                debugFrames += 1;
+                debugTime += delta;
+                if (debugTime >= 0.5) {
+                    const info = renderer.info.render;
+                    debugOverlay.textContent =
+                        `${(debugFrames / debugTime).toFixed(1)} fps\n` +
+                        `draws ${info.calls}\n` +
+                        `tris ${info.triangles}`;
+                    debugFrames = 0;
+                    debugTime = 0;
+                }
+            }
         };
-        render();
+        frame = requestAnimationFrame(render);
 
         const onPointerMove = (event: PointerEvent) => {
             pointerTarget.set(
@@ -488,6 +607,30 @@ export default function ThreeBackground({
             visible = !document.hidden;
         };
 
+        // The greeting screen is only the first viewport: stop drawing as soon as
+        // it has been scrolled past.
+        const intersectionObserver = new IntersectionObserver(([entry]) => {
+            inView = entry.isIntersecting;
+            if (inView) dirty = true;
+        });
+        intersectionObserver.observe(wrapper);
+
+        // Opt-in diagnostics: add `?threeDebug` to the URL to see the real frame
+        // rate, draw calls and triangle count in the corner of the page.
+        const debugOverlay = new URLSearchParams(window.location.search).has('threeDebug')
+            ? document.createElement('pre')
+            : null;
+        let debugFrames = 0;
+        let debugTime = 0;
+
+        if (debugOverlay) {
+            debugOverlay.style.cssText =
+                'position:fixed;left:12px;bottom:12px;z-index:9999;margin:0;padding:6px 9px;' +
+                'font:12px/1.5 ui-monospace,monospace;color:#9effc0;background:rgba(0,0,0,.65);' +
+                'border-radius:6px;pointer-events:none;white-space:pre';
+            document.body.appendChild(debugOverlay);
+        }
+
         window.addEventListener('pointermove', onPointerMove, { passive: true });
         document.addEventListener('visibilitychange', onVisibilityChange);
 
@@ -495,6 +638,7 @@ export default function ThreeBackground({
             disposed = true;
             cancelAnimationFrame(frame);
             resizeObserver.disconnect();
+            intersectionObserver.disconnect();
             window.removeEventListener('resize', resize);
             window.removeEventListener('orientationchange', resize);
             window.removeEventListener('pointermove', onPointerMove);
@@ -510,15 +654,18 @@ export default function ThreeBackground({
             disposeObject(mistGroup);
 
             renderer.dispose();
+            // Release the GL context right away instead of waiting for GC. Safe now
+            // that every run owns its own canvas element.
+            renderer.forceContextLoss();
+            canvas.remove();
+            debugOverlay?.remove();
         };
-    }, [modelUrl, fov, animated]);
+    }, [modelUrl, fov]);
 
     return (
         <div
             ref={wrapperRef}
             className={[styles.background, className].filter(Boolean).join(' ')}
-        >
-            <canvas ref={canvasRef} aria-hidden="true" />
-        </div>
+        />
     );
 }

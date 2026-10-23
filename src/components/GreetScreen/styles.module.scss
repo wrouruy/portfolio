@@ -1,20 +1,30 @@
 .greetScreen {
     width: 100%;
     height: 100%;
+    display: flex;
 }
 
 .row {
     display: flex;
     position: absolute;
-    // top: calc(70vh - 40px);
-    // left: calc(40px * 2);
     left: calc(40px * 2);
     bottom: calc(40px * 2);
     align-items: center;
     gap: 30px;
 
+    animation: fade-in 500ms 1;
+    transition: 500ms;
+
     img {
         border-radius: 50%;
+        transition: transform 220ms ease-out;
+        animation: img-idle 3.4s ease-in-out infinite;
+
+        &:hover {
+            animation:
+                img-idle 3.4s ease-in-out infinite,
+                img-vibration 250ms ease-in-out infinite;
+        }
     }
     h1 {
         font-size: 2rem;
@@ -24,5 +34,33 @@
     div {
         display: flex;
         flex-direction: column;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        top: calc(40px * 2 + 15px);
+        opacity: 0;
+    } to {
+        top: calc(40px * 2);
+        opacity: 1;
+    }
+}
+
+@keyframes img-idle {
+    0%, 100% {
+        translate: 0 4px;
+    } 50% {
+        translate: 0 -4px;
+    }
+}
+
+@keyframes img-vibration {
+    0%, 100% {
+        transform: translateX(0);
+    } 25% {
+        transform: translateX(7px);
+    } 75% {
+        transform: translateX(-7px);
     }
 }
