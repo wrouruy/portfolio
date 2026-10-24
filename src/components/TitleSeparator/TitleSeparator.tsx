@@ -1,11 +1,15 @@
+import type { ReactNode } from 'react'
 import styles from './style.module.scss'
 
-interface Props { text: string };
+interface Props {
+    children: ReactNode
+}
 
-export default function TitleSeparator({ text }: Props) {
+export default function TitleSeparator({ children }: Props) {
     return (
         <div className={styles.title}>
-            <span>{text}</span>
+            <div className={styles.content}>{children}</div>
+            <hr className={styles.line} aria-hidden="true" />
         </div>
     )
 }
