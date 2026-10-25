@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Ubuntu_Mono } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
+import ErrorProvider from "@/components/ErrorProvider/ErrorProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,7 +21,7 @@ const ubuntuMono = Ubuntu_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "portfolio",
+  title: "wrxxv@gentoo: ~ $",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <SmoothScroll />
+        <ErrorProvider />
         {children}
       </body>
     </html>

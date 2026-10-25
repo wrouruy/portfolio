@@ -1,0 +1,118 @@
+.skillsSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 90px 0;
+
+    section {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    h1 {
+        width: 100%;
+        span { color: #54546c; }
+        display: flex;
+        gap: 15px;
+    }
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    button {
+        width: 100%;
+        padding: 10px 20px;
+        border: 2px solid #FFF;
+        cursor: pointer;
+        transition: 300ms;
+        &:hover { color: #da516f; border-color: #da516f; }
+    }
+} 
+
+.mainContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.filterContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+
+    button {
+        padding: 5px 15px;
+        border: 2px solid #ffffff;
+        transition: 300ms;
+        cursor: pointer;
+
+        &:hover { border-color: #da516f; color: #da516f }
+    }
+
+    button.active {
+        border-color: #da516f;
+        color: #da516f;
+    }
+}
+
+.skillsContainer {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skillItem {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d0d0d0;
+    opacity: 0;
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+.revealed .skillItem {
+    animation: skill-appear 400ms ease-out forwards;
+    animation-delay: calc(var(--i, 0) * 50ms);
+}
+
+@keyframes skill-appear {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .revealed .skillItem {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+.loader {
+    color: #ffffff;
+    width: 4px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+    transform: translateX(-38px);
+    animation: loader-animation .5s infinite alternate linear;
+    position: relative;
+    translate: -50% 0;
+    top: 50%;
+}
+
+@keyframes loader-animation {
+    50%  {box-shadow: 19px 0 0 3px, 38px 0 0 7px, 57px 0 0 3px}
+    100% {box-shadow: 19px 0 0 0  , 38px 0 0 3px, 57px 0 0 7px}
+}
