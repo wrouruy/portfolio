@@ -6,11 +6,12 @@ import GreetingTransition from '@/components/GreetingTransition/GreetingTransiti
 import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
 import ErrorScreen from '@/components/ErrorScreen/ErrorScreen';
 import AboutSection from '@/components/AboutSection/AboutSection';
+import SkillsSection from '@/components/SkillsSection/SkillsSection';
+import Footer from '@/components/Footer/Footer';
 
 import { addError } from '@/lib/error-store';
 
 import styles from './page.module.scss'
-import SkillsSection from '@/components/SkillsSection/SkillsSection';
 
 interface Response {
     ok: boolean,
@@ -95,6 +96,7 @@ export default function App() {
                     <SkillsSection />
                 </div>
             </GreetingTransition>
+            <Footer />
         </div>
     )
 }

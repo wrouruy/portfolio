@@ -80,6 +80,11 @@
         justify-content: center;
         text-align: center;
     }
+
+    &:hover {
+        transition: 300ms;
+        transform: scale(1.05);
+    }
 }
 
 .revealed .skillItem {

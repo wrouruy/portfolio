@@ -1,0 +1,28 @@
+.footer {
+    width: 100%;
+    padding: 30px 20vw;
+    background-color: #0e0d10;
+    display: flex;
+    justify-content: space-between;
+    
+    div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    svg { height: 20px }
+}
+
+.linksContainer {
+    display: flex;
+    width: 70px;
+    justify-content: space-between;
+    svg {
+        width: 25px;
+        height: 25px;
+        opacity: 0.6;
+        transition: 300ms;
+        &:hover { opacity: 1; }
+    }
+}
