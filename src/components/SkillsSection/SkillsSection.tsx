@@ -55,7 +55,12 @@ export default function SkillsSection () {
                 addError(data.message ?? 'Failed to load skills', { title: 'GET /api/skills' });
                 return;
             }
-
+            if (data.skills)
+                data.skills.sort((a, b) => {
+                    const orderA = a.sort_order;
+                    const orderB = b.sort_order;
+                    return orderA - orderB;
+                });
             setResponse(data);
         } catch (err) {
             addError(
@@ -96,7 +101,9 @@ export default function SkillsSection () {
     return (
         <div className={styles.skillsSection}>
             <section>
-                <TitleSeparator children={<h1><span>Hard</span> Skills</h1>} />
+                <TitleSeparator>
+                    <h1><span>Hard</span> Skills</h1>
+                </TitleSeparator>
                 
                 {
                 loading ?
@@ -135,8 +142,14 @@ export default function SkillsSection () {
                                             className={styles.skillItem}
                                             style={{ '--i': index } as CSSProperties}
                                         >
-                                            <Image src={e.icon_url} width={50} height={50} alt={e.name}/>
-                                            <h1>{e.name}</h1>
+                                            <Image
+                                                src={e.icon_url}
+                                                width={44}
+                                                height={44}
+                                                alt=""
+                                                className={styles.skillIcon}
+                                            />
+                                            <span className={styles.skillName}>{e.name}</span>
                                         </div>
                                     ))
                                 }
