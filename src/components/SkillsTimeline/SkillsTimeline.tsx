@@ -229,7 +229,6 @@ export default function SkillsTimeline ({ title, className }: Props) {
                                         className={styles.row}
                                         data-reveal
                                         style={{
-                                            // '--accent': entry.accent,
                                             '--level': `${entry.level}%`,
                                         } as CSSProperties}
                                     >
@@ -257,7 +256,7 @@ export default function SkillsTimeline ({ title, className }: Props) {
                                                     <h2>{item.name}</h2>
                                                     <p className={styles.period}>
                                                         <span>{entry.fromLabel}</span>
-                                                        <p>to</p>
+                                                        to
                                                         <span>{entry.toLabel}</span>
                                                         <span className={styles.separator}>·</span>
                                                         {entry.levelLabel}

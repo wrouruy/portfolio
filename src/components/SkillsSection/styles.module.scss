@@ -74,8 +74,7 @@
     gap: 12px;
     min-height: 112px;
     padding: 18px 8px 14px;
-    border: 1px solid #26242e;
-    border-radius: 2px;
+    border: 2px solid #ffffff;
     background: transparent;
     opacity: 0;
     transition: border-color .25s ease, background-color .25s ease;
@@ -95,7 +94,7 @@
     letter-spacing: .09em;
     text-transform: uppercase;
     text-align: center;
-    color: #8d8999;
+    color: #ffffff;
     transition: color .25s ease;
 }
 
@@ -114,11 +113,9 @@
 
 @media (hover: hover) {
     .skillItem:hover {
-        border-color: #3d3a48;
-        background-color: #1c1b22;
+        background-color: #ffffff15;
 
         .skillIcon { opacity: 1; }
-        .skillName { color: #e9e7ef; }
     }
 }
 
