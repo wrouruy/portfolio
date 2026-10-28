@@ -16,7 +16,6 @@ interface Props {
     className?: string
 }
 
-const ACCENTS = ['#da516f', '#bf6eda', '#7070dc', '#dde36f', '#5ec9a8']
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 interface Point {
@@ -281,7 +280,7 @@ export default function SkillsTimeline ({ title, className }: Props) {
                                                 aria-valuemax={100}
                                                 aria-valuenow={entry.level}
                                             >
-                                                <span className={styles.meterFill} />
+                                                <span className={styles.meterFill} style={{ '--level': entry.level + '%' } as CSSProperties} />
                                             </div>
 
                                             {(item.category_id || item.tags?.length || entry.ongoing) && (

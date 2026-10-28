@@ -224,7 +224,6 @@
     font-weight: 700;
     letter-spacing: .02em;
     border: 1px solid #000000;
-    border-radius: 3px;
 }
 
 .heading {
@@ -300,7 +299,7 @@
     transition: width 1s cubic-bezier(.22, .8, .24, 1) .2s;
 }
 
-.revealed .meterFill { width: var(--level); }
+.revealed .meterFill { width: var(--level); background-color: #FFF; }
 
 .meta {
     display: flex;

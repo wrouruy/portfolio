@@ -18,6 +18,5 @@ export interface SkillMilestone {
     // icon?: ReactNode
     icon_url: string,
     /** Accent hex used by the node, meter and badge. */
-    color?: string
     tags?: string[]
 }
