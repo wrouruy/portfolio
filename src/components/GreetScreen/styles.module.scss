@@ -4,12 +4,19 @@
     display: flex;
 }
 
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
 .row {
+    width: calc(100% - 40px * 4);
     display: flex;
     position: absolute;
     left: calc(40px * 2);
     bottom: calc(40px * 2);
     align-items: center;
+    justify-content: space-between;
     gap: 30px;
 
     animation: fade-in 500ms 1;
@@ -30,12 +37,29 @@
         font-size: 2rem;
         font-weight: 800;
     }
-
-    div {
+    section {
         display: flex;
-        flex-direction: column;
+        height: 100%;
+        align-items: center; 
+        gap: 30px;
     }
 }
+
+.projectsLink {
+    display: flex;
+    padding: 10px 20px;
+    border: 2px solid #fff;
+    gap: 10px;
+    align-items: center;
+    transition: 300ms;
+}
+
+@media (hover: hover) {
+    .projectsLink:hover {
+        background: #ffffff21
+    }
+}
+
 
 @keyframes fade-in {
     from {

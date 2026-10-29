@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 import ThreeBackground from '@/components/ThreeBackground/ThreeBackground'
 import styles from './styles.module.scss'
 
@@ -18,11 +20,18 @@ export default function GreetScreen({ username, avatar_url, email, isAnimated }:
             />
 
             <div className={styles.row}>
-                <Image src={avatar_url || '/missing_texture.png'} width={170} height={170} alt='avatar' loading='eager' />
-                <div>
-                    <h1>@{username}</h1>
-                    <h2>{email}</h2>
-                </div>
+                <section>
+                    <Image src={avatar_url || '/missing_texture.png'} width={170} height={170} alt='avatar' loading='eager' />
+                    <div className={styles.column}>
+                        <h1>@{username}</h1>
+                        <h2>{email}</h2>
+                    </div>
+                </section>
+                <section>
+                    <a href='/projects' className={styles.projectsLink}>
+                        <FontAwesomeIcon icon={faProjectDiagram}/> <span>View Projects</span>
+                    </a>
+                </section>
             </div>
         </div>
     )
