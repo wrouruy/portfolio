@@ -39,9 +39,16 @@
 
     .Links {
         display: flex;
-        gap: 10px;
         width: 100%;
         margin-top: 40px;
+        justify-content: space-between;
+        align-items: center;
+
+        div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
         a {
             cursor: pointer;

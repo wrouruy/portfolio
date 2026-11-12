@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Ubuntu_Mono } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 import ErrorProvider from "@/components/ErrorProvider/ErrorProvider";
+import Footer from "@/components/Footer/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll />
         <ErrorProvider />
         {children}
+        <Footer />
       </body>
     </html>
   );

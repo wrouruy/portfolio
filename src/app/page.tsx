@@ -8,7 +8,6 @@ import ErrorScreen from '@/components/ErrorScreen/ErrorScreen';
 import AboutSection from '@/components/AboutSection/AboutSection';
 import SkillsSection from '@/components/SkillsSection/SkillsSection';
 import SkillsTimeline from '@/components/SkillsTimeline/SkillsTimeline';
-import Footer from '@/components/Footer/Footer';
 
 import { addError } from '@/lib/error-store';
 import styles from './page.module.scss'
@@ -92,12 +91,11 @@ export default function App() {
                 }
             >
                 <div className={styles.contentContainer}>
-                    <AboutSection />
+                    <AboutSection location={response.user.location} />
                     <SkillsSection />
                     <SkillsTimeline />
                 </div>
             </GreetingTransition>
-            <Footer />
         </div>
     )
 }

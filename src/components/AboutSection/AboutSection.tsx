@@ -1,10 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLeetcode } from '@fortawesome/free-brands-svg-icons';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import PhotoSlider from '../PhotoSlider/PhotoSlider';
 import styles from './styles.module.scss'
 import TitleSeparator from '../TitleSeparator/TitleSeparator';
 
-export default function AboutSection () {
+type Props = { location: string }
+
+export default function AboutSection ({ location }: Props) {
     return (
         <div className={styles.AboutMe}>
             <section>
@@ -25,8 +28,14 @@ export default function AboutSection () {
                     is a chance to innovate.
                 </p>
                 <div className={styles.Links}>
-                    <a href='https://github.com/wrouruy'> <FontAwesomeIcon icon={faGithub}/> Github</a>
-                    <a href='https://leetcode.com/u/wrouruy/'> <FontAwesomeIcon icon={faLeetcode}/> LeetCode</a>
+                    <div>
+                        <a href='https://github.com/wrouruy'> <FontAwesomeIcon icon={faGithub}/> Github</a>
+                        <a href='https://leetcode.com/u/wrouruy/'> <FontAwesomeIcon icon={faLeetcode}/> LeetCode</a>
+                    </div>
+                    <div>
+                        <FontAwesomeIcon icon={faLocationDot} />
+                        <p>{location}</p>
+                    </div>
                 </div>
             </section>
         </div>
