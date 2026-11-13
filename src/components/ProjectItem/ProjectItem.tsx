@@ -25,6 +25,7 @@ export default function ProjectItem({ name, website_url, source_code_url, image_
                         fill
                         sizes="(max-width: 760px) 92vw, (max-width: 1280px) 46vw, 600px"
                         className={styles.image}
+                        loading="eager"
                     />
                 ) : (
                     <span className={styles.imageFallback} aria-hidden="true">no preview</span>
